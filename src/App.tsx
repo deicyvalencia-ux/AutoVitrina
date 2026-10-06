@@ -3,19 +3,31 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import InputAutocomplete from './components/atoms/InputAutocomplete'
 import './App.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Vehicle } from './Services/vehicleService'
 import { FormRerseva } from './components/organisms/FormRerseva'
 
 function App() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle>();
+  const [isSuccesReserved, setIsSuccesReserved] = useState<boolean>(false);
+
 
 
   const handleOpenModal = (vehicle: Vehicle) => {
     setSelectedVehicle(vehicle)
     setOpenModal(true);
   }
+
+  const handleCancel = () => {
+    setOpenModal(!openModal)
+  }
+
+  useEffect(() => {
+    setOpenModal(prev => !prev)
+  }, [isSuccesReserved]);
+
+
   return (
     <>
       <section id="center">
@@ -32,18 +44,21 @@ function App() {
         {openModal && (
           <div className='modal-overlay'>
             <div className='modal-content'>
-             <FormRerseva />
+              <FormRerseva handleCancel={handleCancel} vehicle={selectedVehicle} setIsSuccesReserved={setIsSuccesReserved} />
             </div>
 
           </div>
         )}
       </section>
 
-      <div className="ticks"></div>
+      <div className="ticks">
+        {isSuccesReserved && (
+          <p>
+            Se Reservo con exito
+          </p>
+        )}
+      </div>
 
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
     </>
   )
 }

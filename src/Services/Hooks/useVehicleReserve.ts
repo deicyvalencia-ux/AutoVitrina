@@ -6,7 +6,7 @@ export const UseVehicleReserve = () => {
 
     const [results, setResults] = useState<Reservation>();
     const [error, setError] = useState<string | null>(null);
-    const [status, setStatus] = useState<string>("");
+    const [status, setStatus] = useState<string>("unknown");
 
 
     const reserveVehicle = useCallback(async (reserveInput: ReserveInput) => {

@@ -11,15 +11,13 @@ interface FormRersevaProps {
 export const FormRerseva = ({ handleCancel, vehicle, setIsSuccesReserved }: FormRersevaProps) => {
     const [datos, setDatos] = useState({ buyerName: "", buyerEmail: "" });
 
-    const { results, error, status, reserveVehicle } = UseVehicleReserve()
+    const { error, status, reserveVehicle } = UseVehicleReserve()
 
 
     const onChange = (e: any) => {
         const { name, value } = e.target
         setDatos((prev) => ({ ...prev, [name]: value }))
     }
-
-    console.log("result", results, "error", error, "estado", status)
 
     const onSubmit = (e: any) => {
         e.preventDefault();

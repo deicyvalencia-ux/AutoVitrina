@@ -21,8 +21,6 @@ export type UseVehicleSearchResult = {
   error: string | null;
   /** Reintenta la búsqueda vigente (p. ej. tras un error). */
   retry: () => void;
-  /** Reemplaza un vehículo en los resultados (p. ej. tras reservarlo). */
-  updateVehicle: (vehicle: Vehicle) => void;
 };
 
 const DEBOUNCE_MS = 300;
@@ -76,12 +74,6 @@ export function useVehicleSearch(): UseVehicleSearchResult {
     setRetrySignal(retryTick.current);
   }, []);
 
-  const updateVehicle = useCallback((vehicle: Vehicle) => {
-    setResults((prev) =>
-      prev.map((v) => (v.id === vehicle.id ? { ...v, ...vehicle } : v))
-    );
-  }, []);
-
   return {
     query,
     setQuery,
@@ -89,6 +81,5 @@ export function useVehicleSearch(): UseVehicleSearchResult {
     status,
     error,
     retry,
-    updateVehicle,
   };
 }

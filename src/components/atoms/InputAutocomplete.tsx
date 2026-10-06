@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useVehicleSearch } from "../../Services/Hooks/useVehicleSearch";
 import "./InputAutocomplete.css";
+import type { Vehicle } from "../../Services/vehicleService";
 
 function formatPrice(value: number) {
   return value.toLocaleString("es-CO", {
@@ -10,13 +11,19 @@ function formatPrice(value: number) {
   });
 }
 
-export default function InputAutocomplete() {
+interface InputAutocompleteProps {
+  handleOpenModal: (vehicle: Vehicle) => void
+
+}
+
+export default function InputAutocomplete({handleOpenModal}:InputAutocompleteProps ) {
   const { query, setQuery, results, status = "error", error, retry } = useVehicleSearch();
   const [open, setOpen] = useState(false);
 
   const showList = open && query.trim() !== "";
 
   return (
+
     <div className="autocomplete">
       <input
         type="text"
@@ -58,7 +65,7 @@ export default function InputAutocomplete() {
                   {formatPrice(vehicle.priceCOP)}
                 </span>
 
-                {vehicle.status != "RESERVED" && <button>Reservar</button>}
+                {vehicle.status != "RESERVED" && <button type="button" onClick={() => handleOpenModal(vehicle)}>Reservar</button>}
               </div>
             ))}
         </div>
